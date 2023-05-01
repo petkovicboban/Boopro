@@ -4,21 +4,24 @@ $('#checkIssueForm').on('submit', function(e) {
     e.preventDefault();
     $('#results').hide();
     $('#no-data').hide();
-    axios.post('/check-issue', {
+    axios.post('/api/check-issue', {
         term: $('input[name=term]').val(),
         platform_id: $('select[name=platform_id]').val()
     })
     .then(function(response) {
         $('#checkIssueModal').modal('hide');
-        var page = '<?php echo $page == 1 ? $key + 2 : ($page - 1)*10 + $key + 2 ?>';
-        if(response.data.check_existing_term != null && page < 11){
-            var html =  $('.table').html();
-            $('#checkIssueModal').modal('hide');
-            $('.table').html(html += '<tr><td>'+page+'</td><td>'+response.data.term+'</td><td>'+response.data.platform_name+'</td><td>'+response.data.score+'</td></tr>');
-        }
         $('#term').html(response.data.term);
         $('#score').html(response.data.score);
         $('#results').show();
+
+        return new Promise((resolve) => {
+            setTimeout(function() {
+                resolve();
+            }, 1500 )
+        })
+        .then(() => {
+            location.reload();
+        });
     })
     .catch(function(error) {
         $('#checkIssueModal').modal('hide');
@@ -84,8 +87,7 @@ $('#editPlatformForm').on('submit', function(e) {
     e.preventDefault();
     $('#results').hide();
     $('#no-data').hide();
-    axios.put('/update', {
-        id: $('input[name=id]').val(),
+    axios.put('/platform/'+$('input[name=id]').val(), {
         title: $('input[name=title1]').val(),
         route: $('input[name=route1]').val(),
         positive: $('input[name=positive1]').val(),

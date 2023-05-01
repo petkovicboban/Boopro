@@ -33,11 +33,6 @@ class DynamicRouteController extends Controller
         ];
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $page = $request->page ? $request->page : 1;
@@ -48,22 +43,6 @@ class DynamicRouteController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -83,23 +62,6 @@ class DynamicRouteController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\DynamicRoute  $dynamicRoute
-     * @return \Illuminate\Http\Response
-     */
-    public function show(DynamicRoute $dynamicRoute)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DynamicRoute  $dynamicRoute
-     * @return \Illuminate\Http\Response
-     */
     public function edit(DynamicRoute $platform)
     {
         return response([
@@ -107,14 +69,7 @@ class DynamicRouteController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DynamicRoute  $dynamicRoute
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
+    public function update(Request $request, $platform)
     {
         $rules = [
             'title' => ['required', 'string', 'max:255'],
@@ -125,19 +80,13 @@ class DynamicRouteController extends Controller
 
         $validatedData = $request->validate($rules, $this->messages);
 
-        $dynamicRoute = DynamicRoute::findOrFail($request->id);
+        $dynamicRoute = DynamicRoute::findOrFail($platform);
 
         $dynamicRoute->update($request->all());
         
         return;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\DynamicRoute  $dynamicRoute
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(DynamicRoute $platform)
     {
         $platform->delete();

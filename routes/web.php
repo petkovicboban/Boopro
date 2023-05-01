@@ -15,14 +15,6 @@ use App\Http\Controllers\DynamicRouteController;
 |
 */
 
-Route::get('/', [PopularityController::class, 'index'])->name('popularity.index');
-Route::post('/check-issue', [PopularityController::class, 'checkIssue'])->name('check.issue');
-
 Route::resource('popularity', PopularityController::class);
 
 Route::resource('platform', DynamicRouteController::class);
-
-Route::put('/update', [DynamicRouteController::class, 'update']);
-Route::get('/get-platforms', [DynamicRouteController::class, 'getPlatforms']);
-Route::post('/new-platform', [DynamicRouteController::class, 'newPlatform'])->name('new.platform');
-

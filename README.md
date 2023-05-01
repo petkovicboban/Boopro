@@ -118,7 +118,7 @@ After cloning repo the sequence of actions is as follows:
 - php artisan serve
 
 If there are no API routes entered that are manipulated in the services, the application issues a warning that it is necessary to create routes for at least one service. This is done on the Platforms page. After creating the routes from the Issues page, a search is made for the popularity of the given term.
-In PopularityController, the request is first validated, and after success, the given term is checked if it exists in the database. If it exists,  data is sent to the view. If it does not exist, Dependency Injection CalculateScoreService is performed, where with the help of the Guzzle package, requests are sent to specific endpoints (previously defined on the Platforms page).
+In PopularityController, the request is first validated, and after success, the given term is checked if it exists in the database. If it exists, data read from the database are sent to the view. If it does not exist, Dependency Injection CalculateScoreService is performed, where the Guzzle package was used, requests are sent to specific endpoints (previously defined on the Platforms page).
 From the response, the total_count properties are used according to the given conditions in the task and in this way the required score is obtained and it is entered into the database together with the term and the id of the platform to which the requests were sent.
 Finally, the obtained data is displayed in the popularity.index file. All previous term searches are also displayed in tabular form.
 
