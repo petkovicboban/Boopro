@@ -69,6 +69,7 @@ e.g
 Passing properties to the blade file in PopularityController lines 32 (31-35)
 
 
+
 3. Pagination:
 JSON API provides standardized pagination using the page query parameter. It allows specifying the page number and size to retrieve a subset of resources. For example:
 
@@ -78,16 +79,19 @@ e.g
 Laravel pagination used in app
 
 
+
 4. Filtering:
 JSON API supports filtering resources based on specific criteria. Filters can be applied using query parameters. For example, filtering posts by the author's name:
 
 GET /api/posts?filter[author]=Boban%20Petkovic
 
 
+
 5. Sorting:
 JSON API allows sorting resources by one or more fields. Sorting can be specified using query parameters. For example, sorting posts by creation date in descending order:
 
 GET /api/posts?sort=-created_at
+
 
 
 6. Error Handling:
