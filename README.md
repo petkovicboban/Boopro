@@ -117,6 +117,8 @@ After cloning repo the sequence of actions is as follows:
 
 - composer install
 - npm install
+- make DB in local
+- set .env file
 - php artisan migrate
 - npm run dev
 - php artisan serve
