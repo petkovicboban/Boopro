@@ -70,7 +70,7 @@ class PopularityController extends Controller
             'check_existing_term' => $check_existing_term,
             'term' => $popularity->term,
             'platform_name' => DynamicRoute::find($request->platform_id)->title,
-            'score' =>$popularity->score
+            'score' => $popularity->score
         ], 200);
         
     }
