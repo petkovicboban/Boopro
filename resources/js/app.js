@@ -14,14 +14,16 @@ $('#checkIssueForm').on('submit', function(e) {
         $('#score').html(response.data.score);
         $('#results').show();
 
-        return new Promise((resolve) => {
-            setTimeout(function() {
-                resolve();
-            }, 1500 )
-        })
-        .then(() => {
-            location.reload();
-        });
+        if(response.data.check_existing_term){
+            return new Promise((resolve) => {
+                setTimeout(function() {
+                    resolve();
+                }, 1500 )
+            })
+            .then(() => {
+                location.reload();
+            });
+        }
     })
     .catch(function(error) {
         $('#checkIssueModal').modal('hide');

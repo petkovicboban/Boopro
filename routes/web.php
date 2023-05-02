@@ -15,6 +15,8 @@ use App\Http\Controllers\DynamicRouteController;
 |
 */
 
+Route::get('/', [PopularityController::class, 'index'])->name('popularity.index');
+
 Route::resource('popularity', PopularityController::class);
 
 Route::resource('platform', DynamicRouteController::class);

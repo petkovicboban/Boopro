@@ -117,6 +117,3 @@
 {{ $popularities->links('pagination::bootstrap-5') }}
 
 @endsection
-
-@push('scripts')
-@endpush
