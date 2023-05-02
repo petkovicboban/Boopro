@@ -2,8 +2,6 @@ import './bootstrap';
 
 $('#checkIssueForm').on('submit', function(e) {
     e.preventDefault();
-    $('#results').hide();
-    $('#no-data').hide();
     axios.post('/api/check-issue', {
         term: $('input[name=term]').val(),
         platform_id: $('select[name=platform_id]').val()
@@ -105,8 +103,7 @@ $('.reload').on('click', function(e){
     location.reload();
 });
 
-function showMessage(message, color)
-{
+function showMessage(message, color) {
     $('#message').html(message);
     $('#showMessageModal .modal-header').addClass(color);
     $('#showMessageModal').modal('show');
