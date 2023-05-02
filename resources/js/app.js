@@ -12,33 +12,15 @@ $('#checkIssueForm').on('submit', function(e) {
         $('#checkIssueModal').modal('hide');
         $('#term').html(response.data.term);
         $('#score').html(response.data.score);
-        $('#results').show();
-
-        if(response.data.check_existing_term){
-            return new Promise((resolve) => {
-                setTimeout(function() {
-                    resolve();
-                }, 1500 )
-            })
-            .then(() => {
-                location.reload();
-            });
-        }
+        $('#resultModal').modal('show');
     })
     .catch(function(error) {
         $('#checkIssueModal').modal('hide');
-        $('#no-data').show();
         if (error.response.status === 422) {
-            const validationErrors = error.response.data.errors;
-            var errors = '<ul>';
-            Object.keys(validationErrors).forEach(key => {
-                errors += '<li>' + validationErrors[key] + '</li>';
-            });
-            errors += '</ul>';
-            $('#message').html(errors);
+            showErrors(error, 'danger');
         }
         else {
-            $('#message').html(['No data!']);
+            showMessage('No data!', 'danger');
         }
     })
     .finally(function() {
@@ -48,8 +30,6 @@ $('#checkIssueForm').on('submit', function(e) {
 
 $('#newPlatformForm').on('submit', function(e) {
     e.preventDefault();
-    $('#results').hide();
-    $('#no-data').hide();
     axios.post('/platform', {
         title: $('input[name=title]').val(),
         route: $('input[name=route]').val(),
@@ -58,20 +38,19 @@ $('#newPlatformForm').on('submit', function(e) {
     })
     .then(function(response) {
         $('#newPlatformModal').modal('hide');
-        showMessage('New Platform successfuly created!');
+        showMessage('New Platform successfuly created!', 'success');
     })
     .catch(function(error) {
         $('#newPlatformModal').modal('hide');
-        $('#no-data').show();
-
         if (error.response.status === 422) {
-            showErrors(error);
+            showErrors(error, 'danger');
         }
     })
     .finally(clearFields());
 });
 
-$('.editPlatform').on('click', function(){
+$('.editPlatform').on('click', function(e){
+    e.preventDefault();
     axios.get('/platform/'+$(this).data('platform')+'/edit')
     .then(function(response) {
         $('input[name=id]').val(response.data.platform.id);
@@ -87,8 +66,6 @@ $('.editPlatform').on('click', function(){
 
 $('#editPlatformForm').on('submit', function(e) {
     e.preventDefault();
-    $('#results').hide();
-    $('#no-data').hide();
     axios.put('/platform/'+$('input[name=id]').val(), {
         title: $('input[name=title1]').val(),
         route: $('input[name=route1]').val(),
@@ -97,24 +74,23 @@ $('#editPlatformForm').on('submit', function(e) {
     })
     .then(function(response) {
         $('#editPlatformModal').modal('hide');
-        showMessage('Platform successfuly updated!');
+        showMessage('Platform successfuly updated!', 'success');
     })
     .catch(function(error) {
         $('#editPlatformModal').modal('hide');
-        $('#no-data').show();
-
         if (error.response.status === 422) {
-            showErrors(error);
+            showErrors(error, 'danger');
         }
     })
     .finally(clearFields());
 });
 
-$('.deletePlatform').on('click', function() {
+$('.deletePlatform').on('click', function(e) {
+    e.preventDefault();
     if(confirm('Are you sure?') == false) return;  
     axios.delete('/platform/'+$(this).data('platform'))
         .then(function (response) {
-              location.reload();               
+            showMessage('Platform successfuly deleted!', 'success')
         });
 });
 
@@ -123,31 +99,29 @@ $('.close').on('click', function(e){
     clearFields();        
 });
 
-function showMessage(message)
-{
-    $('#results').show();
-    $('#results').html(message);
-    clearFields();
+$('.reload').on('click', function(e){
+    e.preventDefault();    
+    clearFields();  
+    location.reload();
+});
 
-    return new Promise((resolve) => {
-        setTimeout(function() {
-            resolve();
-        }, 1500 )
-    })
-    .then(() => {
-        location.reload();
-    });
+function showMessage(message, color)
+{
+    $('#message').html(message);
+    $('#showMessageModal .modal-header').addClass(color);
+    $('#showMessageModal').modal('show');
+    clearFields();
 }
 
-function showErrors(error) {
+function showErrors(error, color) {
     const validationErrors = error.response.data.errors;
     var errors = '<ul>';
     Object.keys(validationErrors).forEach(key => {
         errors += '<li>' + validationErrors[key] + '</li>';
     });
     errors += '</ul>';
-    $('#message').html(errors);
-    return;
+
+    showMessage(errors, color)
 }
 
 function clearFields() {

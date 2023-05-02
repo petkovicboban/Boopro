@@ -17,6 +17,7 @@ The following were used to create the Application:
 - jQuery 3.3.1,
 - Guzzle 7.2,
 - Axios 1.1.2
+  (php 8.0 is required)
 
 ## JSON API
 
